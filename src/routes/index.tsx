@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { Search, MapPin, Sparkles, ExternalLink, Filter, X } from "lucide-react";
@@ -374,7 +374,7 @@ function Card({ o }: { o: Opportunity }) {
   const beginner = o.skill_level === "beginner";
 
   return (
-    <article className="group flex flex-col rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition">
+    <article className="group relative flex flex-col rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition">
       <div className="flex items-center gap-2 flex-wrap">
         <span
           className={
@@ -396,7 +396,15 @@ function Card({ o }: { o: Opportunity }) {
         )}
       </div>
 
-      <h3 className="mt-3 font-semibold text-base leading-snug line-clamp-2">{o.title}</h3>
+      <h3 className="mt-3 font-semibold text-base leading-snug line-clamp-2">
+        <Link
+          to="/opportunity/$id"
+          params={{ id: o.id }}
+          className="hover:text-primary transition-colors before:absolute before:inset-0"
+        >
+          {o.title}
+        </Link>
+      </h3>
       <p className="text-sm text-muted-foreground">{o.organization}</p>
 
       {o.description && (
@@ -424,7 +432,8 @@ function Card({ o }: { o: Opportunity }) {
           href={o.apply_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-sm font-medium hover:bg-primary/90"
+          onClick={(e) => e.stopPropagation()}
+          className="relative z-10 inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-sm font-medium hover:bg-primary/90"
         >
           Apply Now <ExternalLink className="h-3.5 w-3.5" />
         </a>

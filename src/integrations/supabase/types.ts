@@ -20,6 +20,7 @@ export type Database = {
           created_at: string
           deadline: string
           description: string
+          eligibility: string | null
           id: string
           location_type: string
           organization: string
@@ -35,6 +36,7 @@ export type Database = {
           created_at?: string
           deadline: string
           description?: string
+          eligibility?: string | null
           id?: string
           location_type: string
           organization: string
@@ -50,6 +52,7 @@ export type Database = {
           created_at?: string
           deadline?: string
           description?: string
+          eligibility?: string | null
           id?: string
           location_type?: string
           organization?: string
