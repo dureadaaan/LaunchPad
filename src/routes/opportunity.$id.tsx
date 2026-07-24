@@ -343,11 +343,21 @@ function OpportunityDetail() {
         {/* Desktop bottom save (keeps Save visible after long scroll too) */}
         <div className="hidden md:flex mt-10">
           <button
-            onClick={handleSave}
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium hover:border-primary/40"
+            onClick={openSaveDialog}
+            aria-pressed={isSaved}
+            className={
+              "inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition " +
+              (isSaved
+                ? "border-primary/40 bg-primary/10 text-primary hover:bg-primary/15"
+                : "border-border bg-card hover:border-primary/40")
+            }
           >
-            <Bookmark className={"h-4 w-4 " + (saved ? "fill-primary text-primary" : "")} />
-            {saved ? "Saved" : "Save this opportunity"}
+            {isSaved ? (
+              <BookmarkCheck className="h-4 w-4 fill-primary/20 text-primary" />
+            ) : (
+              <Bookmark className="h-4 w-4" />
+            )}
+            {isSaved ? `Saved to ${savedEmail}` : "Save this opportunity"}
           </button>
         </div>
       </div>
@@ -363,13 +373,118 @@ function OpportunityDetail() {
           Apply Now <ExternalLink className="h-4 w-4" />
         </a>
         <button
-          onClick={handleSave}
-          aria-label="Save"
-          className="inline-flex items-center justify-center rounded-lg border border-border bg-card px-3 py-3 hover:border-primary/40"
+          onClick={openSaveDialog}
+          aria-label={isSaved ? "Saved" : "Save"}
+          aria-pressed={isSaved}
+          className={
+            "inline-flex items-center justify-center rounded-lg border px-3 py-3 transition " +
+            (isSaved
+              ? "border-primary/40 bg-primary/10 text-primary"
+              : "border-border bg-card hover:border-primary/40")
+          }
         >
-          <Bookmark className={"h-4 w-4 " + (saved ? "fill-primary text-primary" : "")} />
+          {isSaved ? (
+            <BookmarkCheck className="h-4 w-4 fill-primary/20 text-primary" />
+          ) : (
+            <Bookmark className="h-4 w-4" />
+          )}
         </button>
       </div>
+
+      {/* Save dialog */}
+      {dialogOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-foreground/40 backdrop-blur-sm px-4 pb-24 sm:pb-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="save-dialog-title"
+          onClick={() => setDialogOpen(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-2xl bg-card border border-border shadow-xl p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <div className="rounded-lg bg-primary/10 text-primary p-2">
+                  <Bookmark className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 id="save-dialog-title" className="text-base font-semibold">
+                    {isSaved ? "Update saved opportunity" : "Save this opportunity"}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    We'll bookmark it under your email on this device.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setDialogOpen(false)}
+                aria-label="Close"
+                className="rounded-md p-1 text-muted-foreground hover:text-foreground hover:bg-muted"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <form onSubmit={confirmSave} className="mt-5 space-y-3">
+              <label className="block">
+                <span className="text-xs font-medium text-muted-foreground">Email</span>
+                <div className="mt-1 relative">
+                  <Mail className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input
+                    type="email"
+                    autoFocus
+                    required
+                    value={emailInput}
+                    onChange={(e) => {
+                      setEmailInput(e.target.value);
+                      if (emailError) setEmailError(null);
+                    }}
+                    placeholder="you@university.edu.pk"
+                    className={
+                      "w-full rounded-lg border bg-background pl-9 pr-3 py-2.5 text-sm outline-none transition focus:ring-2 focus:ring-primary/30 " +
+                      (emailError ? "border-urgent" : "border-border focus:border-primary/40")
+                    }
+                    aria-invalid={emailError ? true : undefined}
+                    aria-describedby={emailError ? "save-email-error" : undefined}
+                  />
+                </div>
+                {emailError && (
+                  <p id="save-email-error" className="mt-1 text-xs text-urgent">
+                    {emailError}
+                  </p>
+                )}
+              </label>
+
+              <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
+                {isSaved && (
+                  <button
+                    type="button"
+                    onClick={removeSaved}
+                    className="mr-auto text-sm font-medium text-urgent hover:underline"
+                  >
+                    Remove
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setDialogOpen(false)}
+                  className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:bg-primary/90"
+                >
+                  {isSaved ? "Update" : "Save"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
