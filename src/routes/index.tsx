@@ -374,7 +374,7 @@ function Card({ o }: { o: Opportunity }) {
   const beginner = o.skill_level === "beginner";
 
   return (
-    <article className="group flex flex-col rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition">
+    <article className="group relative flex flex-col rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition">
       <div className="flex items-center gap-2 flex-wrap">
         <span
           className={
