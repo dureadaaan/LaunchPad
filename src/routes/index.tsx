@@ -432,7 +432,8 @@ function Card({ o }: { o: Opportunity }) {
           href={o.apply_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-sm font-medium hover:bg-primary/90"
+          onClick={(e) => e.stopPropagation()}
+          className="relative z-10 inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-sm font-medium hover:bg-primary/90"
         >
           Apply Now <ExternalLink className="h-3.5 w-3.5" />
         </a>
