@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MapPin, ExternalLink, Bookmark, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft, MapPin, ExternalLink, Bookmark, BookmarkCheck, Sparkles, X, Mail } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/opportunity/$id")({
