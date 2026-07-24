@@ -14,7 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      opportunities: {
+        Row: {
+          apply_url: string
+          created_at: string
+          deadline: string
+          description: string
+          id: string
+          location_type: string
+          organization: string
+          paid: boolean
+          pakistan_friendly: boolean
+          skill_level: string
+          tags: string[]
+          title: string
+          type: string
+        }
+        Insert: {
+          apply_url: string
+          created_at?: string
+          deadline: string
+          description?: string
+          id?: string
+          location_type: string
+          organization: string
+          paid?: boolean
+          pakistan_friendly?: boolean
+          skill_level: string
+          tags?: string[]
+          title: string
+          type: string
+        }
+        Update: {
+          apply_url?: string
+          created_at?: string
+          deadline?: string
+          description?: string
+          id?: string
+          location_type?: string
+          organization?: string
+          paid?: boolean
+          pakistan_friendly?: boolean
+          skill_level?: string
+          tags?: string[]
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
