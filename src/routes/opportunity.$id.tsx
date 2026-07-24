@@ -96,9 +96,39 @@ function Unavailable() {
   );
 }
 
+const SAVED_KEY = "internpulse:saved";
+
+type SavedEntry = { email: string; opportunityId: string; savedAt: string };
+
+function readSaved(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(SAVED_KEY);
+    return raw ? (JSON.parse(raw) as SavedEntry[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeSaved(list: SavedEntry[]) {
+  localStorage.setItem(SAVED_KEY, JSON.stringify(list));
+}
+
+function isValidEmail(v: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+}
+
 function OpportunityDetail() {
   const { id } = Route.useParams();
-  const [saved, setSaved] = useState(false);
+  const [savedEmail, setSavedEmail] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [emailError, setEmailError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const list = readSaved();
+    const existing = list.find((s) => s.opportunityId === id);
+    if (existing) setSavedEmail(existing.email);
+  }, [id]);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["opportunity", id],
@@ -133,22 +163,49 @@ function OpportunityDetail() {
   if (d < 0) return <Unavailable />;
 
   const urgent = d <= 7;
+  const isSaved = savedEmail !== null;
 
-  function handleSave() {
-    if (saved) return;
-    const email = window.prompt("Enter your email to save this opportunity:");
-    if (!email) return;
-    try {
-      const key = "internpulse:saved";
-      const raw = localStorage.getItem(key);
-      const list = raw ? JSON.parse(raw) : [];
-      list.push({ email, opportunityId: o.id, savedAt: new Date().toISOString() });
-      localStorage.setItem(key, JSON.stringify(list));
-      setSaved(true);
-    } catch {
-      setSaved(true);
-    }
+  function openSaveDialog() {
+    setEmailInput(savedEmail ?? "");
+    setEmailError(null);
+    setDialogOpen(true);
   }
+
+  function confirmSave(e: React.FormEvent) {
+    e.preventDefault();
+    const email = emailInput.trim();
+    if (!isValidEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+    try {
+      const list = readSaved().filter((s) => s.opportunityId !== o.id);
+      list.push({ email, opportunityId: o.id, savedAt: new Date().toISOString() });
+      writeSaved(list);
+    } catch {
+      // ignore storage errors
+    }
+    setSavedEmail(email);
+    setDialogOpen(false);
+    toast.success("Opportunity saved", {
+      description: `We'll remember this under ${email}.`,
+    });
+  }
+
+  function removeSaved() {
+    try {
+      const list = readSaved().filter((s) => s.opportunityId !== o.id);
+      writeSaved(list);
+    } catch {
+      // ignore
+    }
+    setSavedEmail(null);
+    setDialogOpen(false);
+    toast("Removed from saved", {
+      description: "This opportunity is no longer bookmarked.",
+    });
+  }
+
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground pb-28 md:pb-16">
