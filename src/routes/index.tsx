@@ -396,7 +396,15 @@ function Card({ o }: { o: Opportunity }) {
         )}
       </div>
 
-      <h3 className="mt-3 font-semibold text-base leading-snug line-clamp-2">{o.title}</h3>
+      <h3 className="mt-3 font-semibold text-base leading-snug line-clamp-2">
+        <Link
+          to="/opportunity/$id"
+          params={{ id: o.id }}
+          className="hover:text-primary transition-colors before:absolute before:inset-0"
+        >
+          {o.title}
+        </Link>
+      </h3>
       <p className="text-sm text-muted-foreground">{o.organization}</p>
 
       {o.description && (
