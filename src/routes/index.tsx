@@ -156,9 +156,18 @@ function Index() {
               </p>
             </div>
           </div>
-          <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
-            <Sparkles className="h-4 w-4 text-accent" />
-            <span>Beginner-friendly picks welcome</span>
+          <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2 text-xs text-muted-foreground">
+              <Sparkles className="h-4 w-4 text-accent" />
+              <span>Beginner-friendly picks welcome</span>
+            </div>
+            <Link
+              to="/saved"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium hover:border-primary/40 hover:text-primary transition"
+            >
+              <Bookmark className="h-4 w-4" />
+              Saved
+            </Link>
           </div>
         </div>
       </header>
