@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Search, MapPin, Sparkles, ExternalLink, Filter, X } from "lucide-react";
+import { Search, MapPin, Sparkles, ExternalLink, Filter, X, Bookmark } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 type Opportunity = {
