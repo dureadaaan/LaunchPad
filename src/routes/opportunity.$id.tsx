@@ -272,13 +272,35 @@ function OpportunityDetail() {
             Apply Now <ExternalLink className="h-4 w-4" />
           </a>
           <button
-            onClick={handleSave}
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium hover:border-primary/40"
+            onClick={openSaveDialog}
+            aria-pressed={isSaved}
+            className={
+              "inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition " +
+              (isSaved
+                ? "border-primary/40 bg-primary/10 text-primary hover:bg-primary/15"
+                : "border-border bg-card hover:border-primary/40")
+            }
           >
-            <Bookmark className={"h-4 w-4 " + (saved ? "fill-primary text-primary" : "")} />
-            {saved ? "Saved" : "Save"}
+            {isSaved ? (
+              <BookmarkCheck className="h-4 w-4 fill-primary/20 text-primary" />
+            ) : (
+              <Bookmark className="h-4 w-4" />
+            )}
+            {isSaved ? "Saved" : "Save"}
           </button>
         </div>
+        {isSaved && savedEmail && (
+          <p className="hidden md:block mt-2 text-xs text-muted-foreground">
+            Saved to <span className="font-medium text-foreground">{savedEmail}</span>.{" "}
+            <button
+              type="button"
+              onClick={openSaveDialog}
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              Manage
+            </button>
+          </p>
+        )}
 
         <section className="mt-8">
           <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
