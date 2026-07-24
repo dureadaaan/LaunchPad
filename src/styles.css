@@ -19,6 +19,16 @@
  */
 
 @theme inline {
+  --font-sans: var(--font-sans);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-urgent: var(--urgent);
+  --color-urgent-foreground: var(--urgent-foreground);
+  --color-type-internship: var(--type-internship);
+  --color-type-research: var(--type-research);
+  --color-type-hackathon: var(--type-hackathon);
+  --color-type-conference: var(--type-conference);
+  --color-type-workshop: var(--type-workshop);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
