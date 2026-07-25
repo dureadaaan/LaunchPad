@@ -18,9 +18,10 @@ export type Database = {
         Row: {
           apply_url: string
           created_at: string
-          deadline: string
+          deadline: string | null
           description: string
           eligibility: string | null
+          featured_calendar: boolean | null
           id: string
           location_type: string
           organization: string
@@ -28,15 +29,19 @@ export type Database = {
           pakistan_friendly: boolean
           skill_level: string
           tags: string[]
+          timeline_end: string | null
+          timeline_selection: string | null
+          timeline_start: string | null
           title: string
           type: string
         }
         Insert: {
           apply_url: string
           created_at?: string
-          deadline: string
+          deadline?: string | null
           description?: string
           eligibility?: string | null
+          featured_calendar?: boolean | null
           id?: string
           location_type: string
           organization: string
@@ -44,15 +49,19 @@ export type Database = {
           pakistan_friendly?: boolean
           skill_level: string
           tags?: string[]
+          timeline_end?: string | null
+          timeline_selection?: string | null
+          timeline_start?: string | null
           title: string
           type: string
         }
         Update: {
           apply_url?: string
           created_at?: string
-          deadline?: string
+          deadline?: string | null
           description?: string
           eligibility?: string | null
+          featured_calendar?: boolean | null
           id?: string
           location_type?: string
           organization?: string
@@ -60,6 +69,9 @@ export type Database = {
           pakistan_friendly?: boolean
           skill_level?: string
           tags?: string[]
+          timeline_end?: string | null
+          timeline_selection?: string | null
+          timeline_start?: string | null
           title?: string
           type?: string
         }
