@@ -162,11 +162,19 @@ function Index() {
               <span>Beginner-friendly picks welcome</span>
             </div>
             <Link
+              to="/match"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-sm font-semibold hover:bg-primary/90 transition"
+            >
+              <Sparkles className="h-4 w-4" />
+              Match me
+            </Link>
+            <Link
               to="/calendar"
               className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium hover:border-primary/40 hover:text-primary transition"
             >
               Calendar
             </Link>
+
             <Link
               to="/saved"
               className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium hover:border-primary/40 hover:text-primary transition"
