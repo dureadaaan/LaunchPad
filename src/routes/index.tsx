@@ -63,7 +63,7 @@ function Index() {
     const q = query.trim().toLowerCase();
     return list.filter((o) => {
       if (q) {
-        const hay = `${o.title} ${o.organization} ${o.description} ${o.tags.join(" ")}`.toLowerCase();
+        const hay = `${o.title} ${o.organization} ${o.description} ${(o.tags ?? []).join(" ")}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
       if (types.size && !types.has(o.type)) return false;
@@ -72,6 +72,7 @@ function Index() {
       if (paidFilter === "paid" && !o.paid) return false;
       if (paidFilter === "unpaid" && o.paid) return false;
       if (deadlineWindow !== "any") {
+        if (!o.deadline) return false;
         const d = daysUntil(o.deadline);
         if (d > Number(deadlineWindow)) return false;
       }
