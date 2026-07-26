@@ -1,14 +1,16 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import type { Opportunity } from "@/components/OpportunityCard";
 
 export type MatchResult = {
   opportunity_id: string;
   confidence_score: number;
   reason: string;
   note?: string;
+  opportunity: Opportunity;
 };
 
-export type MatchResponse = { matches: MatchResult[]; message?: string };
+export type MatchResponse = { matches: MatchResult[]; message?: string; error?: string };
 
 export const matchOpportunities = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>

@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { generateText } from "ai";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
 import type { MatchResponse, MatchResult } from "./match.functions";
+import type { Opportunity } from "@/components/OpportunityCard";
 import type { Database } from "@/integrations/supabase/types";
 
 function publicSupabase() {
@@ -37,21 +38,25 @@ export async function runMatching(
   level: "beginner" | "intermediate" | "advanced",
 ): Promise<MatchResponse> {
   const apiKey = process.env.LOVABLE_API_KEY;
-  if (!apiKey) throw new Error("AI is not configured yet.");
+  if (!apiKey) {
+    return { matches: [], error: "AI matching isn't configured yet. Please try again later." };
+  }
 
   const today = new Date().toISOString().slice(0, 10);
   const supabase = publicSupabase();
   const { data: rows, error } = await supabase
     .from("opportunities")
     .select(
-      "id, title, type, skill_level, location_type, pakistan_friendly, paid, description, organization, deadline",
+      "id, title, organization, type, skill_level, location_type, pakistan_friendly, paid, description, apply_url, deadline, tags",
     )
-    .or(`deadline.gte.${today},deadline.is.null`)
-    .order("deadline", { ascending: true })
-    .limit(80);
+    .or(`deadline.gte.${today},featured_calendar.eq.true`)
+    .limit(120);
 
-  if (error) throw new Error("Could not load opportunities.");
-  const opportunities = rows ?? [];
+  if (error) {
+    return { matches: [], error: "Couldn't load opportunities right now. Please try again." };
+  }
+
+  const opportunities = (rows ?? []) as unknown as Opportunity[];
   if (opportunities.length === 0) {
     return {
       matches: [],
@@ -59,34 +64,48 @@ export async function runMatching(
     };
   }
 
-  const validIds = new Set(opportunities.map((o) => o.id));
+  const byId = new Map(opportunities.map((o) => [o.id, o]));
 
   const { SYSTEM_PROMPT } = await import("./match.prompt");
   const gateway = createLovableAiGatewayProvider(apiKey);
 
-  const { text } = await generateText({
-    model: gateway("google/gemini-3.5-flash"),
-    system: SYSTEM_PROMPT,
-    prompt: [
-      `Student experience level: ${level}`,
-      `Student skills / interests (free text): ${skills}`,
-      "",
-      "Currently active opportunities (JSON):",
-      JSON.stringify(
-        opportunities.map((o) => ({
-          id: o.id,
-          title: o.title,
-          organization: o.organization,
-          type: o.type,
-          skill_level: o.skill_level,
-          location_type: o.location_type,
-          pakistan_friendly: o.pakistan_friendly,
-          paid: o.paid,
-          description: (o.description ?? "").slice(0, 400),
-        })),
-      ),
-    ].join("\n"),
-  });
+  let text: string;
+  try {
+    const res = await generateText({
+      model: gateway("google/gemini-3.5-flash"),
+      system: SYSTEM_PROMPT,
+      prompt: [
+        `Student experience level: ${level}`,
+        `Student skills / interests (free text): ${skills}`,
+        "",
+        "Currently active opportunities (JSON):",
+        JSON.stringify(
+          opportunities.map((o) => ({
+            id: o.id,
+            title: o.title,
+            organization: o.organization,
+            type: o.type,
+            skill_level: o.skill_level,
+            location_type: o.location_type,
+            pakistan_friendly: o.pakistan_friendly,
+            paid: o.paid,
+            description: (o.description ?? "").slice(0, 400),
+          })),
+        ),
+      ].join("\n"),
+    });
+    text = res.text;
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "";
+    console.error("[match] AI call failed:", msg);
+    if (msg.includes("429")) {
+      return { matches: [], error: "Too many requests right now — please try again in a minute." };
+    }
+    if (msg.includes("402")) {
+      return { matches: [], error: "AI credits are exhausted. Please add credits to continue." };
+    }
+    return { matches: [], error: "The matcher is unavailable right now. Please try again." };
+  }
 
   let parsed: unknown;
   try {
@@ -95,16 +114,31 @@ export async function runMatching(
   } catch {
     const start = text.indexOf("{");
     const end = text.lastIndexOf("}");
-    if (start === -1 || end === -1) throw new Error("The matcher returned an unreadable response.");
-    parsed = JSON.parse(text.slice(start, end + 1));
+    const aStart = text.indexOf("[");
+    const aEnd = text.lastIndexOf("]");
+    try {
+      if (start !== -1 && end > start) parsed = JSON.parse(text.slice(start, end + 1));
+      else if (aStart !== -1 && aEnd > aStart) parsed = JSON.parse(text.slice(aStart, aEnd + 1));
+      else throw new Error("no json");
+    } catch {
+      console.error("[match] unparseable AI response");
+      return {
+        matches: [],
+        error: "The matcher returned an unexpected response. Please try again.",
+      };
+    }
   }
 
   const raw = parsed as { matches?: unknown[]; message?: unknown };
-  const list = Array.isArray(raw?.matches) ? raw.matches : Array.isArray(parsed) ? (parsed as unknown[]) : [];
+  const list = Array.isArray(raw?.matches)
+    ? raw.matches
+    : Array.isArray(parsed)
+      ? (parsed as unknown[])
+      : [];
 
   const matches: MatchResult[] = list
     .map((m) => m as Record<string, unknown>)
-    .filter((m) => typeof m?.opportunity_id === "string" && validIds.has(m.opportunity_id as string))
+    .filter((m) => typeof m?.opportunity_id === "string" && byId.has(m.opportunity_id as string))
     .slice(0, 8)
     .map((m) => {
       const note = typeof m.note === "string" && m.note.trim() ? words(m.note, 15) : undefined;
@@ -113,6 +147,7 @@ export async function runMatching(
         confidence_score: clamp(m.confidence_score),
         reason: words(typeof m.reason === "string" ? m.reason : "", 20),
         ...(note ? { note } : {}),
+        opportunity: byId.get(m.opportunity_id as string)!,
       };
     })
     .sort((a, b) => b.confidence_score - a.confidence_score);
