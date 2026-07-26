@@ -21,8 +21,6 @@ function publicSupabase() {
   });
 }
 
-const SYSTEM_PROMPT_MARKER = "InternPulse matching engine";
-
 function clamp(n: unknown) {
   const v = typeof n === "number" ? Math.round(n) : Number.parseInt(String(n ?? 0), 10);
   if (!Number.isFinite(v)) return 0;
@@ -128,5 +126,3 @@ export async function runMatching(
 
   return { matches, ...(message ? { message } : {}) };
 }
-
-export { SYSTEM_PROMPT_MARKER };
