@@ -17,6 +17,7 @@ export type Opportunity = {
   apply_url: string;
   tags?: string[];
   created_at?: string;
+  logo_url?: string | null;
 };
 
 export type TypeKey = Opportunity["type"];
