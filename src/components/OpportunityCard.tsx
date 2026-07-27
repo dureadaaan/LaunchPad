@@ -62,9 +62,10 @@ export function deadlineLabel(dateStr: string) {
 
 export function Meta({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-md bg-muted text-muted-foreground px-1.5 py-0.5 text-xs">
+    <span className="inline-flex items-center gap-1 rounded-md bg-muted text-muted-foreground px-1.5 py-0.5 text-[11px] whitespace-nowrap">
       {children}
     </span>
+
   );
 }
 
