@@ -47,7 +47,7 @@ export async function runMatching(
   const { data: rows, error } = await supabase
     .from("opportunities")
     .select(
-      "id, title, organization, type, skill_level, location_type, pakistan_friendly, paid, description, apply_url, deadline, tags",
+      "id, title, organization, type, skill_level, location_type, pakistan_friendly, paid, description, apply_url, deadline, tags, logo_url",
     )
     .or(`deadline.gte.${today},featured_calendar.eq.true`)
     .limit(120);
