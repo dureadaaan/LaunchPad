@@ -68,13 +68,6 @@ const SEASONS: Record<string, number> = {
   winter: 12,
 };
 
-const TYPE_DOT: Record<OppType, string> = {
-  internship: "bg-blue-500",
-  research: "bg-purple-500",
-  hackathon: "bg-pink-500",
-  conference: "bg-teal-500",
-  workshop: "bg-amber-500",
-};
 
 // Soft pastel pill for each program row
 const TYPE_PILL: Record<OppType, string> = {
