@@ -12,13 +12,13 @@ export const Route = createFileRoute("/match")({
   component: MatchPage,
   head: () => ({
     meta: [
-      { title: "AI Match — InternPulse" },
+      { title: "AI Match — LaunchPad" },
       {
         name: "description",
         content:
           "Describe your skills and experience level and get a ranked shortlist of internships, research roles, hackathons, and workshops that fit you.",
       },
-      { property: "og:title", content: "AI Match — InternPulse" },
+      { property: "og:title", content: "AI Match — LaunchPad" },
       {
         property: "og:description",
         content:

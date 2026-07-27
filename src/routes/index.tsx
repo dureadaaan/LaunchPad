@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "InternPulse — Live Opportunities for Pakistani Students" },
+      { title: "LaunchPad — Live Opportunities for Pakistani Students" },
       {
         name: "description",
         content:
@@ -106,7 +106,7 @@ function Index() {
               iP
             </div>
             <div>
-              <h1 className="text-lg font-bold tracking-tight leading-none">InternPulse</h1>
+              <h1 className="text-lg font-bold tracking-tight leading-none">LaunchPad</h1>
               <p className="text-xs text-muted-foreground mt-0.5">
                 Live opportunities for Pakistani students
               </p>

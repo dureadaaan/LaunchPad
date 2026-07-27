@@ -9,16 +9,16 @@ export const Route = createFileRoute("/opportunity/$id")({
   component: OpportunityDetail,
   head: () => ({
     meta: [
-      { title: "Opportunity — InternPulse" },
+      { title: "Opportunity — LaunchPad" },
       {
         name: "description",
         content:
           "Full details for this opportunity — eligibility, deadline, and how to apply.",
       },
-      { property: "og:title", content: "Opportunity — InternPulse" },
+      { property: "og:title", content: "Opportunity — LaunchPad" },
       {
         property: "og:description",
-        content: "Full details for this opportunity on InternPulse.",
+        content: "Full details for this opportunity on LaunchPad.",
       },
     ],
   }),
