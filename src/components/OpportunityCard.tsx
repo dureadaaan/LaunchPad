@@ -114,7 +114,7 @@ export function OpportunityCard({
       </div>
 
       <div className="mt-3 flex items-start gap-3">
-        <CompanyLogo organization={o.organization} />
+        <CompanyLogo organization={o.organization} logoUrl={o.logo_url} />
         <div className="min-w-0">
           <h3 className="font-semibold text-base leading-snug line-clamp-2">
             <Link
