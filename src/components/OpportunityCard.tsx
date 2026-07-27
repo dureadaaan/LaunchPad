@@ -83,48 +83,53 @@ export function OpportunityCard({
 
   return (
     <article className="group relative flex flex-col rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition">
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex items-center gap-2 overflow-hidden">
         <span
           className={
-            "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold " +
+            "inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap " +
             TYPE_CLASSES[o.type]
           }
         >
           {TYPE_LABEL[o.type]}
         </span>
         {typeof score === "number" && (
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/25">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary border border-primary/25 whitespace-nowrap">
             {score}% match
           </span>
         )}
         {o.pakistan_friendly && (
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-success/15 text-success border border-success/25">
-            🇵🇰 Pakistan-friendly
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-success/15 text-success border border-success/25 whitespace-nowrap">
+            🇵🇰 PK
           </span>
         )}
         {beginner && (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-accent/20 text-accent border border-accent/30">
-            <Sparkles className="h-3 w-3" /> Beginner-friendly
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-accent/20 text-accent border border-accent/30 whitespace-nowrap">
+            <Sparkles className="h-3 w-3" /> Beginner
           </span>
         )}
       </div>
 
-      <h3 className="mt-3 font-semibold text-base leading-snug line-clamp-2">
-        <Link
-          to="/opportunity/$id"
-          params={{ id: o.id }}
-          className="hover:text-primary transition-colors before:absolute before:inset-0"
-        >
-          {o.title}
-        </Link>
-      </h3>
-      <p className="text-sm text-muted-foreground">{o.organization}</p>
+      <div className="mt-3 flex items-start gap-3">
+        <CompanyLogo organization={o.organization} />
+        <div className="min-w-0">
+          <h3 className="font-semibold text-base leading-snug line-clamp-2">
+            <Link
+              to="/opportunity/$id"
+              params={{ id: o.id }}
+              className="hover:text-primary transition-colors before:absolute before:inset-0"
+            >
+              {o.title}
+            </Link>
+          </h3>
+          <p className="text-sm text-muted-foreground truncate">{o.organization}</p>
+        </div>
+      </div>
 
       {o.description && (
         <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{o.description}</p>
       )}
 
-      <div className="mt-3 flex flex-wrap items-center gap-1.5">
+      <div className="mt-3 flex items-center gap-1.5 overflow-hidden">
         <Meta>
           <MapPin className="h-3 w-3" />
           {LOC_LABEL[o.location_type]}
@@ -132,6 +137,7 @@ export function OpportunityCard({
         <Meta>{o.skill_level[0].toUpperCase() + o.skill_level.slice(1)}</Meta>
         <Meta>{o.paid ? "Paid" : "Unpaid"}</Meta>
       </div>
+
 
       {reason && <p className="mt-3 text-sm text-foreground/80 italic">{reason}</p>}
 
