@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { MapPin, Sparkles, ExternalLink } from "lucide-react";
+import { CompanyLogo } from "./CompanyLogo";
+
 
 export type Opportunity = {
   id: string;
