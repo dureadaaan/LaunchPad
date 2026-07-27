@@ -288,7 +288,7 @@ function Index() {
         </div>
       </main>
 
-      <footer className="border-t border-border mt-16">
+      <footer className="border-t border-[#E5E7EB] mt-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 text-xs text-muted-foreground">
           Built for CS/IT students across Pakistan. Deadlines refreshed regularly.
         </div>
