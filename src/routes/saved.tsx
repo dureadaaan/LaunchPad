@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Bookmark, MapPin, ExternalLink, Trash2, Mail, Sparkles } from "lucide-react";
+import { Bookmark, MapPin, ExternalLink, Trash2, Mail, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { TopBar } from "@/components/TopBar";
 
 export const Route = createFileRoute("/saved")({
   component: SavedPage,
@@ -180,16 +181,10 @@ function SavedPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
+    <div className="min-h-screen font-sans text-foreground" style={{ background: "linear-gradient(180deg, #EEF2FF 0%, #F5F3FF 100%)" }}>
+      <TopBar />
       <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" /> Back to opportunities
-        </Link>
-
-        <div className="mt-6 flex items-start justify-between gap-4 flex-wrap">
+        <div className=" flex items-start justify-between gap-4 flex-wrap">
           <div>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight flex items-center gap-2">
               <Bookmark className="h-7 w-7 text-primary" />

@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { TopBar } from "@/components/TopBar";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { Sparkles, ArrowLeft, Wand2, Loader2 } from "lucide-react";
+import { Sparkles, Wand2, Loader2 } from "lucide-react";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { matchOpportunities, type MatchResponse } from "@/lib/match.functions";
 
@@ -45,17 +46,8 @@ function MatchPage() {
   const canSubmit = skills.trim().length >= 3 && !mutation.isPending;
 
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
-      <header className="border-b border-border bg-background/80 backdrop-blur">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to opportunities
-          </Link>
-        </div>
-      </header>
+    <div className="min-h-screen font-sans text-foreground" style={{ background: "linear-gradient(180deg, #EEF2FF 0%, #F5F3FF 100%)" }}>
+      <TopBar />
 
       <main className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 text-accent border border-accent/25 px-3 py-1 text-xs font-semibold">
