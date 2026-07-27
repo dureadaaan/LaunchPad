@@ -9,16 +9,16 @@ export const Route = createFileRoute("/saved")({
   component: SavedPage,
   head: () => ({
     meta: [
-      { title: "Saved Opportunities — InternPulse" },
+      { title: "Saved Opportunities — LaunchPad" },
       {
         name: "description",
         content:
-          "View all the opportunities you've saved on InternPulse and jump back to their details.",
+          "View all the opportunities you've saved on LaunchPad and jump back to their details.",
       },
-      { property: "og:title", content: "Saved Opportunities — InternPulse" },
+      { property: "og:title", content: "Saved Opportunities — LaunchPad" },
       {
         property: "og:description",
-        content: "Your bookmarked internships, hackathons, and more on InternPulse.",
+        content: "Your bookmarked internships, hackathons, and more on LaunchPad.",
       },
     ],
   }),

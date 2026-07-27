@@ -79,13 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "InternPulse — Live Opportunities for Pakistani Students" },
+      { title: "LaunchPad — Live Opportunities for Pakistani Students" },
       {
         name: "description",
         content:
           "A live feed of internships, research positions, hackathons, conferences, and workshops open to Pakistani CS/IT students.",
       },
-      { property: "og:title", content: "InternPulse — Live Opportunities for Pakistani Students" },
+      { property: "og:title", content: "LaunchPad — Live Opportunities for Pakistani Students" },
       {
         property: "og:description",
         content:

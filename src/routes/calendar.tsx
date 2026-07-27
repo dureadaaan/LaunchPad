@@ -20,13 +20,13 @@ export const Route = createFileRoute("/calendar")({
   component: CalendarPage,
   head: () => ({
     meta: [
-      { title: "Program Calendar — InternPulse" },
+      { title: "Program Calendar — LaunchPad" },
       {
         name: "description",
         content:
           "Year-at-a-glance grid of major recurring student tech programs — GSoC, Imagine Cup, Google STEP, Microsoft, Amazon SDE, Outreachy, MLH — organized by month.",
       },
-      { property: "og:title", content: "Program Calendar — InternPulse" },
+      { property: "og:title", content: "Program Calendar — LaunchPad" },
       {
         property: "og:description",
         content:
@@ -161,7 +161,7 @@ function CalendarPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[#111827] hover:text-primary">
             <ArrowLeft className="h-4 w-4" />
-            InternPulse
+            LaunchPad
           </Link>
           <nav className="flex items-center gap-2">
             <Link

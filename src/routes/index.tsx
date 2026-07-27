@@ -1,7 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Search, Sparkles, Filter, X, Bookmark } from "lucide-react";
+import { Search, Sparkles, Filter, X } from "lucide-react";
+
 import { supabase } from "@/integrations/supabase/client";
 import {
   OpportunityCard,
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "InternPulse — Live Opportunities for Pakistani Students" },
+      { title: "LaunchPad — Live Opportunities for Pakistani Students" },
       {
         name: "description",
         content:
@@ -97,78 +98,63 @@ function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
-      {/* Header */}
-      <header className="border-b border-border bg-background/80 backdrop-blur sticky top-0 z-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary text-primary-foreground grid place-items-center font-bold">
-              iP
+    <div
+      className="min-h-screen font-sans text-foreground"
+      style={{ background: "linear-gradient(180deg, #EEF2FF 0%, #F5F3FF 100%)" }}
+    >
+      {/* Black hero band */}
+      <header className="bg-hero text-hero-foreground">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 pb-14 min-h-[280px] flex flex-col">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <div className="h-9 w-9 rounded-lg bg-primary text-primary-foreground grid place-items-center font-bold">
+                LP
+              </div>
+              <div>
+                <h1 className="text-lg font-bold tracking-tight leading-none">LaunchPad</h1>
+                <p className="text-xs text-hero-muted mt-0.5">
+                  Live opportunities for Pakistani students
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-lg font-bold tracking-tight leading-none">InternPulse</h1>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                Live opportunities for Pakistani students
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-2 text-xs text-muted-foreground">
-              <Sparkles className="h-4 w-4 text-accent" />
+            <div className="hidden md:flex items-center gap-2 text-xs text-accent">
+              <Sparkles className="h-4 w-4" />
               <span>Beginner-friendly picks welcome</span>
             </div>
-            <Link
-              to="/match"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-sm font-semibold hover:bg-primary/90 transition"
-            >
-              <Sparkles className="h-4 w-4" />
-              Match me
-            </Link>
-            <Link
-              to="/calendar"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium hover:border-primary/40 hover:text-primary transition"
-            >
-              Calendar
-            </Link>
+          </div>
 
-            <Link
-              to="/saved"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium hover:border-primary/40 hover:text-primary transition"
-            >
-              <Bookmark className="h-4 w-4" />
-              Saved
-            </Link>
+          <div className="mt-8">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              Find what's <span className="text-primary-bright">open right now</span>.
+            </h2>
+            <p className="mt-2 text-hero-muted max-w-2xl">
+              Curated internships, research positions, hackathons, conferences, and workshops —
+              with clear tags for Pakistan-friendly and beginner-level opportunities.
+            </p>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero + search */}
-        <section className="mb-8">
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-            Find what's <span className="text-primary">open right now</span>.
-          </h2>
-          <p className="mt-2 text-muted-foreground max-w-2xl">
-            Curated internships, research positions, hackathons, conferences, and workshops —
-            with clear tags for Pakistan-friendly and beginner-level opportunities.
-          </p>
-
-          <div className="mt-6 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-8">
+        {/* Search pill overlapping the hero */}
+        <section className="-mt-8 mb-8 relative z-10">
+          <div className="relative">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <input
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by title, organization, or tag…"
-              className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-card shadow-sm outline-none focus:ring-2 focus:ring-ring focus:border-ring"
+              className="w-full h-[60px] pl-14 pr-6 rounded-[50px] bg-card shadow-[0_12px_30px_-10px_rgba(10,10,10,0.45)] border border-transparent outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
           {/* Filters */}
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-xl border border-border bg-card p-5">
+          <aside className="lg:sticky lg:top-6 lg:self-start">
+            <div className="rounded-2xl border border-[#E5E7EB] bg-card p-6 shadow-[0_10px_30px_-14px_rgba(15,23,42,0.25)]">
+
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <Filter className="h-4 w-4 text-primary" />
@@ -303,7 +289,7 @@ function Index() {
         </div>
       </main>
 
-      <footer className="border-t border-border mt-16">
+      <footer className="border-t border-[#E5E7EB] mt-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 text-xs text-muted-foreground">
           Built for CS/IT students across Pakistan. Deadlines refreshed regularly.
         </div>
@@ -314,11 +300,11 @@ function Index() {
 
 function FilterGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mb-5 last:mb-0">
-      <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+    <div className="mb-8 last:mb-0">
+      <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
         {title}
       </h4>
-      <div className="flex flex-wrap gap-1.5">{children}</div>
+      <div className="flex flex-wrap gap-2">{children}</div>
     </div>
   );
 }
@@ -336,14 +322,15 @@ function Chip({
     <button
       onClick={onClick}
       className={
-        "px-2.5 py-1 rounded-full text-xs font-medium border transition " +
+        "inline-flex items-center h-8 px-3 rounded-full text-xs font-medium border transition " +
         (active
           ? "bg-primary text-primary-foreground border-primary"
-          : "bg-background text-foreground border-border hover:border-primary/40")
+          : "bg-card text-foreground border-[#E5E7EB] hover:border-primary/40")
       }
     >
       {children}
     </button>
   );
 }
+
 
