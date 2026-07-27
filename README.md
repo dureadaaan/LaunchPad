@@ -146,13 +146,17 @@ explanation outside the JSON structure.
 
 ## f. Screenshots
 
-*(Add at least 3 screenshots here before submitting — recommended: the main feed with real opportunities and logos visible, the Program Calendar view, and the AI Match results page. Save them into a folder such as `/screenshots` in this repo and reference them like the example below.)*
-
-```markdown
+### Opportunity Feed
 ![Opportunity Feed](./screenshots/feed.png)
-![Program Calendar](./screenshots/calendar.png)
-![AI Match Results](./screenshots/ai-match.png)
-```
+
+### Program Calendar
+![Program Calendar](./screenshots/Program-Calander.png)
+
+### AI Match
+![AI Match](./screenshots/AI-Match.png)
+
+### Saved Opportunities
+![Saved Opportunities](./screenshots/Saved.png)
 
 ---
 
