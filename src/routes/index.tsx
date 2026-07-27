@@ -299,11 +299,11 @@ function Index() {
 
 function FilterGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mb-5 last:mb-0">
-      <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+    <div className="mb-8 last:mb-0">
+      <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
         {title}
       </h4>
-      <div className="flex flex-wrap gap-1.5">{children}</div>
+      <div className="flex flex-wrap gap-2">{children}</div>
     </div>
   );
 }
@@ -321,14 +321,15 @@ function Chip({
     <button
       onClick={onClick}
       className={
-        "px-2.5 py-1 rounded-full text-xs font-medium border transition " +
+        "inline-flex items-center h-8 px-3 rounded-full text-xs font-medium border transition " +
         (active
           ? "bg-primary text-primary-foreground border-primary"
-          : "bg-background text-foreground border-border hover:border-primary/40")
+          : "bg-card text-foreground border-[#E5E7EB] hover:border-primary/40")
       }
     >
       {children}
     </button>
   );
 }
+
 
