@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, MapPin, ExternalLink, Bookmark, BookmarkCheck, Sparkles, X, Mail } from "lucide-react";
+import { TopBar } from "@/components/TopBar";
+import { CompanyLogo } from "@/components/CompanyLogo";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -38,6 +40,7 @@ type Opportunity = {
   apply_url: string;
   tags: string[];
   eligibility: string | null;
+  logo_url: string | null;
 };
 
 const TYPE_LABEL = {
@@ -79,7 +82,8 @@ function deadlineLabel(dateStr: string) {
 
 function Unavailable() {
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
+    <div className="min-h-screen font-sans text-foreground" style={{ background: "linear-gradient(180deg, #EEF2FF 0%, #F5F3FF 100%)" }}>
+      <TopBar />
       <div className="mx-auto max-w-2xl px-4 sm:px-6 py-16 text-center">
         <h1 className="text-2xl font-bold">This opportunity is no longer available</h1>
         <p className="mt-2 text-muted-foreground">
@@ -145,7 +149,7 @@ function OpportunityDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #EEF2FF 0%, #F5F3FF 100%)" }}>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-10">
           <div className="h-6 w-40 rounded bg-muted animate-pulse" />
           <div className="mt-6 h-10 w-3/4 rounded bg-muted animate-pulse" />
@@ -208,16 +212,10 @@ function OpportunityDetail() {
 
 
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground pb-28 md:pb-16">
+    <div className="min-h-screen font-sans text-foreground pb-28 md:pb-16" style={{ background: "linear-gradient(180deg, #EEF2FF 0%, #F5F3FF 100%)" }}>
+      <TopBar />
       <div className="mx-auto max-w-3xl px-4 sm:px-6 py-8">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" /> Back to opportunities
-        </Link>
-
-        <div className="mt-6 flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
           <span
             className={
               "inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold " +
@@ -238,10 +236,15 @@ function OpportunityDetail() {
           )}
         </div>
 
-        <h1 className="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-          {o.title}
-        </h1>
-        <p className="mt-1 text-muted-foreground">{o.organization}</p>
+        <div className="mt-4 flex items-start gap-3">
+          <CompanyLogo organization={o.organization} logoUrl={o.logo_url} />
+          <div className="min-w-0">
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+              {o.title}
+            </h1>
+            <p className="mt-1 text-muted-foreground">{o.organization}</p>
+          </div>
+        </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
           <span className="inline-flex items-center gap-1 text-muted-foreground">

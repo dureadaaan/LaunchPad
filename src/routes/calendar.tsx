@@ -1,14 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { ExternalLink, Bookmark, ArrowLeft, Sparkles } from "lucide-react";
+import { ExternalLink, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { CompanyLogo } from "@/components/CompanyLogo";
+import { TopBar } from "@/components/TopBar";
 
 type OppType = "internship" | "research" | "hackathon" | "conference" | "workshop";
 
 type FeaturedOpp = {
   id: string;
   title: string;
+  organization: string;
+  logo_url: string | null;
   type: OppType;
   apply_url: string;
   timeline_start: string | null;
@@ -64,13 +68,6 @@ const SEASONS: Record<string, number> = {
   winter: 12,
 };
 
-const TYPE_DOT: Record<OppType, string> = {
-  internship: "bg-blue-500",
-  research: "bg-purple-500",
-  hackathon: "bg-pink-500",
-  conference: "bg-teal-500",
-  workshop: "bg-amber-500",
-};
 
 // Soft pastel pill for each program row
 const TYPE_PILL: Record<OppType, string> = {
@@ -123,7 +120,7 @@ function CalendarPage() {
     queryFn: async (): Promise<FeaturedOpp[]> => {
       const { data, error } = await supabase
         .from("opportunities")
-        .select("id, title, type, apply_url, timeline_start, timeline_selection, timeline_end")
+        .select("id, title, organization, logo_url, type, apply_url, timeline_start, timeline_selection, timeline_end")
         .eq("featured_calendar", true)
         .order("title");
       if (error) throw error;
@@ -157,23 +154,7 @@ function CalendarPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFF9F0] via-[#F9FAFB] to-[#F9FAFB]">
-      <header className="border-b border-border/60 bg-white/80 backdrop-blur sticky top-0 z-30">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[#111827] hover:text-primary">
-            <ArrowLeft className="h-4 w-4" />
-            LaunchPad
-          </Link>
-          <nav className="flex items-center gap-2">
-            <Link
-              to="/saved"
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium hover:border-primary/40 hover:text-primary transition"
-            >
-              <Bookmark className="h-4 w-4" />
-              Saved
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <TopBar />
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="mb-8">
@@ -213,7 +194,7 @@ function CalendarPage() {
               return (
                 <div
                   key={name}
-                  className={`relative rounded-[20px] p-4 h-[210px] flex flex-col transition-transform hover:-translate-y-0.5 ${bgClass} ${
+                  className={`relative rounded-[20px] p-4 h-[250px] flex flex-col transition-transform hover:-translate-y-0.5 ${bgClass} ${
                     isCurrent
                       ? "shadow-[0_10px_30px_-8px_rgba(79,70,229,0.35)] ring-2 ring-[#4F46E5]/40"
                       : "shadow-[0_6px_20px_-10px_rgba(17,24,39,0.25)]"
@@ -243,11 +224,11 @@ function CalendarPage() {
                         <li key={opp.id}>
                           <button
                             onClick={() => setSelected(opp)}
-                            className={`w-full text-left flex items-center gap-2 rounded-full px-2.5 py-1.5 transition hover:brightness-95 ${TYPE_PILL[opp.type]}`}
+                            className={`w-full text-left flex items-center gap-2 rounded-2xl px-2 py-1 transition hover:brightness-95 ${TYPE_PILL[opp.type]}`}
                           >
-                            <span
-                              className={`inline-block h-2 w-2 shrink-0 rounded-full ${TYPE_DOT[opp.type]}`}
-                              aria-hidden
+                            <CompanyLogo
+                              organization={opp.organization}
+                              logoUrl={opp.logo_url}
                             />
                             <span className="text-xs font-semibold leading-tight truncate">
                               {opp.title}
@@ -279,9 +260,12 @@ function CalendarPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-3">
-              <h2 className="text-lg font-extrabold text-[#111827] leading-tight flex items-center gap-2">
-                <span className={`inline-block h-3 w-3 rounded-full ${TYPE_DOT[selected.type]}`} />
-                {selected.title}
+              <h2 className="text-lg font-extrabold text-[#111827] leading-tight flex items-center gap-3">
+                <CompanyLogo
+                  organization={selected.organization}
+                  logoUrl={selected.logo_url}
+                />
+                <span>{selected.title}</span>
               </h2>
               <button
                 onClick={() => setSelected(null)}

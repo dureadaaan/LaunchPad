@@ -24,6 +24,7 @@ export type Database = {
           featured_calendar: boolean | null
           id: string
           location_type: string
+          logo_url: string | null
           organization: string
           paid: boolean
           pakistan_friendly: boolean
@@ -44,6 +45,7 @@ export type Database = {
           featured_calendar?: boolean | null
           id?: string
           location_type: string
+          logo_url?: string | null
           organization: string
           paid?: boolean
           pakistan_friendly?: boolean
@@ -64,6 +66,7 @@ export type Database = {
           featured_calendar?: boolean | null
           id?: string
           location_type?: string
+          logo_url?: string | null
           organization?: string
           paid?: boolean
           pakistan_friendly?: boolean
