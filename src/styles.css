@@ -114,6 +114,15 @@
   --chart-4: oklch(0.65 0.13 190);
   --chart-5: oklch(0.78 0.16 75);
 
+  /* Brand surfaces */
+  --hero: oklch(0.145 0 0);                    /* #0A0A0A jet black */
+  --hero-foreground: oklch(1 0 0);
+  --hero-muted: oklch(0.87 0.005 260);         /* #D1D5DB */
+  --primary-bright: oklch(0.7 0.15 285);       /* #818CF8 */
+  --page-gradient: linear-gradient(180deg, #eef2ff 0%, #f5f3ff 100%);
+  --shadow-soft: 0 10px 30px -12px rgb(15 23 42 / 0.18);
+
+
   --sidebar: oklch(0.985 0.003 260);
   --sidebar-foreground: oklch(0.21 0.03 265);
   --sidebar-primary: oklch(0.52 0.22 280);
