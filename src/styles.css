@@ -21,6 +21,11 @@
 @theme inline {
   --font-sans: var(--font-sans);
   --color-success: var(--success);
+  --color-hero: var(--hero);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-hero-muted: var(--hero-muted);
+  --color-primary-bright: var(--primary-bright);
+
   --color-success-foreground: var(--success-foreground);
   --color-urgent: var(--urgent);
   --color-urgent-foreground: var(--urgent-foreground);
