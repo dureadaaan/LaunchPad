@@ -83,16 +83,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "A live feed of internships, research positions, hackathons, conferences, and workshops open to Pakistani CS/IT students.",
+          "Internships, research, hackathons, conferences, and workshops — open right now, filterable, and Pakistan-friendly.",
       },
       { property: "og:title", content: "LaunchPad — Live Opportunities for Pakistani Students" },
       {
         property: "og:description",
         content:
-          "Curated, filterable, and always current. Find your next internship, hackathon, or research opportunity.",
+          "Internships, research, hackathons, conferences, and workshops — open right now, filterable, and Pakistan-friendly.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "LaunchPad — Live Opportunities for Pakistani Students" },
+      { name: "twitter:description", content: "Internships, research, hackathons, conferences, and workshops — open right now, filterable, and Pakistan-friendly." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/91cfccbe-7ee8-41af-a6e3-f51e36e15326/id-preview-1f93c299--bc3ce00e-6e17-4b97-a87e-c2268163dee0.lovable.app-1785152417779.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/91cfccbe-7ee8-41af-a6e3-f51e36e15326/id-preview-1f93c299--bc3ce00e-6e17-4b97-a87e-c2268163dee0.lovable.app-1785152417779.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
