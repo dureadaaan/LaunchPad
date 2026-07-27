@@ -81,6 +81,14 @@ No login or signup required to browse. Saving opportunities only requires an ema
 
 **What it does:** On the AI Match page, a student describes their skills and interests in their own words and selects an experience level (Beginner / Intermediate / Advanced). The app sends this input, along with the current list of active opportunities, to an AI model, which returns a ranked shortlist of the best-fit opportunities — each with a confidence score and a one-line reason for the match.
 
+**Why AI instead of keyword matching?**
+Traditional search systems rely on exact keywords and predefined filters.
+Students, however, naturally describe themselves using sentences like:
+> "I'm a second-year student who knows basic Python and wants to get into AI."
+This isn't just a collection of keywords—it expresses confidence level, learning goals, interests, and experience simultaneously.
+LaunchPad uses an LLM to interpret these natural-language descriptions, compare them semantically against current opportunities, and recommend the most suitable ones.
+This approach produces more personalized recommendations than traditional keyword matching while still respecting explicit filters such as experience level and beginner-friendly tags.
+
 **The deliberate design choice — and the actual product insight behind this project:** most opportunity boards implicitly favor advanced students, because the most visible/prestigious listings tend to be competitive ones. A junior with limited experience sees a page full of "advanced" requirements and quietly gives up. LaunchPad's matching prompt explicitly counteracts this: when a student's stated level is "beginner," or their described skills sound uncertain or limited, the model is instructed to prioritize genuinely beginner-friendly opportunities and add a short, specific, encouraging note — not generic praise, but something that validates a realistic next step.
 
 **System prompt :**
@@ -100,7 +108,12 @@ First, check whether the student's input actually describes technical skills, in
 Your task: rank the opportunities by how well they fit this student, and
 return the top 5-8 matches as a JSON array. For each match, include:
 - "opportunity_id": the id of the matched opportunity
-- "confidence_score": an integer 0-100 representing fit quality
+- Generate a confidence score from 0–100 based on:
+    40% Skill alignment
+    25% Experience level compatibility
+    20% Interest alignment
+    15% Beginner suitability
+Use these factors to estimate an overall relevance score.The score should represent recommendation strength—not probability of acceptance.
 - "reason": one short sentence (max 20 words) explaining why it fits
 
 Critical instruction for beginners: if the student's stated level is
@@ -199,5 +212,16 @@ Then open `http://localhost:5173` (or whichever port Vite reports).
 - **On the `.env` file in this repository:** it contains only the Supabase project URL and the *publishable* (anon) key — not a `service_role` key or any paid API key. Per Supabase's own security model, these specific values are meant to be public (they're already visible in any deployed app's browser bundle) — actual data access is governed by Row Level Security policies on the database tables, not by keeping this key secret. No sensitive credentials are committed anywhere in this repository.
 
 ---
+
+## Future Roadmap
+
+This version focuses on delivering a complete and reliable MVP. Planned future improvements include:
+
+- Automated opportunity collection from trusted sources
+- AI-powered resume and CV feedback
+- Personalized opportunity recommendations over time
+- Email deadline reminders
+- University-specific opportunity feeds
+- AI-generated application preparation tips
 
 Built for CS/IT students across Pakistan. Deadlines refreshed regularly. 🇵🇰
